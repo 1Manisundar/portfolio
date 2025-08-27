@@ -37,7 +37,6 @@ import { bootstrapApplication } from '@angular/platform-browser';
             <span class="typing-text">{{ typedText }}</span>
             <span class="cursor" [class.blink]="showCursor">|</span>
           </h1>
-          <p class="hero-subtitle">Hey, I’m <b>Mani Sundar</b>.</p>
           <p class="hero-description">My portfolio is currently cooking — serving soon 🍽️</p>
         </div>
       </section>
@@ -79,7 +78,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 .glitch{position:relative; display:inline-block}
 .glitch::before, .glitch::after{content:attr(data-text); position:absolute; inset:0}
 .glitch::before{color:#ff0040; z-index:-1; animation:glitch1 .5s infinite}
-.glitch::after{color:#00ffff; z-index:-2; animation:glitch2 .5s infinite}
+.glitch::after{color:#00ffff; z-index:0; animation:glitch2 .5s infinite}
 @keyframes glitch1{0%,100%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}}
 @keyframes glitch2{0%,100%{transform:translate(0)}20%{transform:translate(2px,2px)}40%{transform:translate(2px,-2px)}60%{transform:translate(-2px,2px)}80%{transform:translate(-2px,-2px)}}
 
@@ -97,7 +96,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 .hero-subtitle{font-size:1.35rem; color:var(--secondary-color)}
 .hero-description{font-size:1.05rem; color:var(--text-secondary)}
 
-.footer{background:rgba(13,17,23,.9); border-top:1px solid var(--glass-border); padding:1.25rem 0; text-align:center; color:var(--text-secondary)}
+.footer{background:rgba(13,17,23,.9); border-top:1px solid var(--glass-border); padding:1.25rem 0; text-align:center; color:white}
 .container{max-width:1200px; margin:0 auto; padding:0 1rem;}
 
 @media (max-width:768px){
