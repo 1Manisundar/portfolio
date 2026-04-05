@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mani Sundar Chollangi — Angular Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080810;
+    --bg2: #0d0d16;
+    --bg3: #111120;
+    --border: rgba(255,255,255,0.07);
+    --border-h: rgba(255,255,255,0.15);
+    --text: #e2e2f0;
+    --muted: #7070a0;
+    --dim: #3a3a60;
+    --accent: #6366f1;
+    --accent2: #22d3ee;
+    --green: #34d399;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* DOT GRID */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0);
+    background-size: 28px 28px;
+  }
+
+  /* VIGNETTE */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(65% 35% at 50% -5%, rgba(99,102,241,0.12), transparent 60%),
+      radial-gradient(40% 30% at 100% 110%, rgba(34,211,238,0.08), transparent 60%),
+      radial-gradient(30% 20% at 0% 80%, rgba(99,102,241,0.06), transparent 50%);
+  }
+
+  * { position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,8,16,0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .logo-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    border: 1px solid var(--border-h) !important;
+    padding: 5px 14px !important;
+    border-radius: 20px !important;
+    color: var(--text) !important;
+  }
+  .nav-cta:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
+
+  /* SECTIONS */
+  .section { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .section-py { padding-top: 80px; padding-bottom: 80px; }
+  .border-section { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.012); }
+
+  /* HERO */
+  #hero { padding-top: 64px; padding-bottom: 80px; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04);
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green); }
+    50% { opacity: 0.6; box-shadow: 0 0 18px var(--green); }
+  }
+  .badge-text {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1.hero-name {
+    font-family: var(--sans);
+    font-size: clamp(42px, 6vw, 76px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(160deg, #fff 0%, #a5b4fc 60%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-title-mono {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent2);
+    letter-spacing: 0.12em;
+    margin-top: 6px;
+    margin-bottom: 18px;
+  }
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 48ch;
+    margin-bottom: 28px;
+  }
+  .hero-typewriter {
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+    margin-bottom: 28px;
+  }
+  .typewriter-text {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: rgba(200,200,240,0.7);
+    line-height: 1.6;
+  }
+  .typewriter-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 13px;
+    background: var(--accent);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 28px;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.025);
+    border-radius: 20px;
+    padding: 4px 12px;
+    color: var(--text);
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 22px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-h);
+    border-radius: 24px;
+    padding: 10px 22px;
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* CONSOLE */
+  .console-wrap {
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: #0a0a14;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.02) inset, 0 30px 80px -20px rgba(0,0,0,0.8);
+    overflow: hidden;
+  }
+  .console-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px;
+  }
+  .tbar-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .tbar-dot.r { background: #ff5f57; }
+  .tbar-dot.y { background: #febc2e; }
+  .tbar-dot.g { background: #28c840; }
+  .tbar-label {
+    margin-left: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .console-body { padding: 16px; }
+  .console-ascii {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin-bottom: 14px;
+    white-space: pre;
+    overflow: hidden;
+  }
+  .console-log {
+    height: 190px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(200,200,240,0.8);
+    scrollbar-width: thin;
+    scrollbar-color: var(--dim) transparent;
+  }
+  .console-log .log-cmd { color: var(--accent2); }
+  .console-log .log-success { color: var(--green); }
+  .console-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .console-prompt { font-family: var(--mono); font-size: 13px; color: var(--dim); }
+  .console-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    caret-color: var(--accent);
+  }
+  .console-input::placeholder { color: var(--dim); }
+  .console-run {
+    border: 1px solid var(--border);
+    background: transparent;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .console-run:hover { border-color: var(--border-h); color: var(--text); }
+
+  /* METRICS MINI */
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .metric-card {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+  }
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .metric-val {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 4px;
+  }
+
+  /* SECTION HEADERS */
+  .sec-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .sec-title {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .sec-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline { display: flex; flex-direction: column; gap: 2px; }
+  .timeline-item {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg2);
+    overflow: hidden;
+    transition: border-color 0.25s;
+    cursor: pointer;
+  }
+  .timeline-item:hover { border-color: var(--border-h); }
+  .timeline-item.active { border-color: rgba(99,102,241,0.4); }
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+  .timeline-left { display: flex; flex-direction: column; gap: 4px; }
+  .timeline-role {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .timeline-co {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .timeline-period {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .timeline-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .timeline-body.open { max-height: 400px; }
+  .timeline-bullets {
+    padding: 0 20px 20px 20px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .timeline-bullets li {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--muted);
+    padding-left: 16px;
+    position: relative;
+  }
+  .timeline-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 10px;
+    top: 2px;
+  }
+  .timeline-toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--dim);
+    flex-shrink: 0;
+    transition: transform 0.3s, border-color 0.2s;
+  }
+  .timeline-item.active .timeline-toggle { transform: rotate(45deg); border-color: var(--border-h); }
+
+  /* SKILLS GRID */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .skill-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg2);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--border-h); transform: translateY(-2px); }
+  .skill-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(200px 80px at 10% 0%, rgba(255,255,255,0.06), transparent);
+    pointer-events: none;
+  }
+  .skill-card:hover::after { opacity: 1; }
+  .skill-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .skill-bar-track {
+    height: 2px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform-origin: left;
+    animation: bar-grow 1.2s ease forwards;
+    transform: scaleX(0);
+  }
+  @keyframes bar-grow { to { transform: scaleX(1); } }
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  /* DEEP DIVE CARDS */
+  .deep-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .deep-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.015);
+    padding: 20px;
+  }
+  .deep-card-icon {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .deep-card-h {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .deep-card-d {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* ACHIEVEMENTS */
+  .achievements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .achievement-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg2);
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.25s;
+  }
+  .achievement-card:hover { border-color: rgba(99,102,241,0.35); }
+  .achievement-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(34,211,238,0.2));
+    border: 1px solid rgba(99,102,241,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .achievement-text h4 {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .achievement-text p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-family: var(--mono);
+  }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 40px; }
+  .about-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat-box {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+    padding: 14px;
+  }
+  .stat-k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 4px;
+  }
+  .stat-v {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+  }
+  .philosophy-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg3);
+    padding: 20px;
+    margin-top: 14px;
+  }
+  .philosophy-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 12px;
+  }
+  .philosophy-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .philosophy-list li {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+    padding-left: 16px;
+    position: relative;
+  }
+  .philosophy-list li::before {
+    content: '//';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 10px;
+    top: 2px;
+  }
+  .about-intro {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 44ch;
+    margin-top: 14px;
+  }
+
+  /* CONTACT */
+  #contact-section {
+    border-top: 1px solid var(--border);
+    background: rgba(255,255,255,0.01);
+  }
+  .contact-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .contact-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .contact-heading {
+    font-family: var(--mono);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .contact-sub {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 55ch;
+  }
+  .contact-chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .contact-chip {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg2);
+    padding: 12px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+  }
+  footer .foot-links {
+    display: flex;
+    gap: 18px;
+  }
+  footer .foot-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer .foot-links a:hover { color: var(--text); }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .deep-cards { grid-template-columns: 1fr 1fr; }
+    .achievements-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    .contact-top { flex-direction: column; }
+    .contact-chips { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .deep-cards { grid-template-columns: 1fr; }
+    .metric-row { grid-template-columns: repeat(3,1fr); }
+    .about-stat-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="logo-mark"></div>
+      MANI SUNDAR / ANGULAR DEV
+    </div>
+    <ul class="nav-links">
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#stack">stack</a></li>
+      <li><a href="#achievements">achievements</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="#contact-section" class="nav-cta">hire me</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="section" id="hero">
+  <div class="hero-grid">
+    <!-- LEFT -->
+    <div class="fade-up visible">
+      <div class="hero-badge">
+        <div class="badge-dot"></div>
+        <span class="badge-text">4 yrs · Angular Specialist · India (IST)</span>
+      </div>
+
+      <h1 class="hero-name">Mani Sundar<br>Chollangi</h1>
+      <div class="hero-title-mono">// Angular Developer · TypeScript · RxJS</div>
+
+      <p class="hero-desc">
+        Enterprise Angular specialist with 4 years building scalable component-based architectures
+        for 4,000+ internal Google users. Expert in performance optimization, RxJS, and clean
+        testable code.
+      </p>
+
+      <div class="hero-typewriter">
+        <div class="typewriter-text" id="typewriterEl"></div>
+        <span class="typewriter-cursor" id="cursorEl"></span>
+      </div>
+
+      <div class="hero-pills">
+        <span class="pill">Angular 14–16</span>
+        <span class="pill">TypeScript</span>
+        <span class="pill">RxJS</span>
+        <span class="pill">Angular Material</span>
+        <span class="pill">Jasmine/Karma</span>
+        <span class="pill">OnPush CD</span>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#experience" class="btn-primary">
+          view experience
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 5l7 7-7 7M5 12h14"/></svg>
+        </a>
+        <a href="mailto:chsundar999@gmail.com" class="btn-secondary">
+          contact me
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: CONSOLE -->
+    <div class="fade-up" style="transition-delay:0.15s">
+      <div class="console-wrap">
+        <div class="console-titlebar">
+          <div class="tbar-dot r"></div>
+          <div class="tbar-dot y"></div>
+          <div class="tbar-dot g"></div>
+          <span class="tbar-label">mani@cognizant ~ portfolio</span>
+        </div>
+        <div class="console-body">
+          <div class="console-ascii" id="asciiArt">
+  __  ___  __   _  _ _
+ /  \|   \|  \_/ \| | |
+| () | |) |   \  _  |_|
+ \__/|___/|_|\_\_| |_(_)
+          </div>
+
+          <div class="console-log" id="consoleLog">
+            <div>pretext — Angular portfolio console.</div>
+            <div>type <span class="log-cmd">:help</span> for commands · :exp · :stack · :contact · :certs</div>
+          </div>
+
+          <div class="console-input-row">
+            <span class="console-prompt">$</span>
+            <input class="console-input" id="consoleInput" placeholder=":help" autocomplete="off" spellcheck="false" />
+            <button class="console-run" id="consoleRunBtn">run</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-card">
+          <div class="metric-label">bundle</div>
+          <div class="metric-val" style="color:var(--green)">−40%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">coverage</div>
+          <div class="metric-val" style="color:var(--accent2)">90%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">perf gain</div>
+          <div class="metric-val" style="color:#f472b6">50%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="section section-py" id="experience">
+  <div class="sec-head fade-up">
+    <div>
+      <div class="sec-title">experience</div>
+    </div>
+    <div class="sec-sub">cognizant · google client · 2021–present</div>
+  </div>
+
+  <div class="timeline fade-up">
+    <!-- Item 1 -->
+    <div class="timeline-item active" onclick="toggleTimeline(this)">
+      <div class="timeline-header">
+        <div class="timeline-left">
+          <div class="timeline-role">Software Engineer</div>
+          <div class="timeline-co">Cognizant — Google Client</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="timeline-period">Jan 2024 – Present</div>
+          <div class="timeline-toggle">+</div>
+        </div>
+      </div>
+      <div class="timeline-body open">
+        <ul class="timeline-bullets">
+          <li>Developed enterprise Angular applications (v14–v16) using TypeScript and RxJS for 4,000+ internal Google users.</li>
+          <li>Built reusable Angular component libraries and dynamic forms, <strong style="color:#fff">reducing engineering effort by 30%</strong>.</li>
+          <li>Implemented lazy-loaded modules, route guards, and API interceptors, <strong style="color:#fff">improving load performance by 50%</strong>.</li>
+          <li>Wrote Jasmine/Karma unit & integration tests achieving <strong style="color:#fff">90% code coverage</strong> and cutting post-release bugs by 40%.</li>
+          <li>Improved UI rendering using Change Detection (OnPush), memoization, and optimized RxJS streams.</li>
+          <li>Automated a manual Angular workflow, reducing repetitive tasks and improving team efficiency.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="timeline-item" onclick="toggleTimeline(this)">
+      <div class="timeline-header">
+        <div class="timeline-left">
+          <div class="timeline-role">Jr. Software Engineer</div>
+          <div class="timeline-co">Cognizant — Google Client</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="timeline-period">Nov 2022 – Jan 2024</div>
+          <div class="timeline-toggle">+</div>
+        </div>
+      </div>
+      <div class="timeline-body">
+        <ul class="timeline-bullets">
+          <li>Developed Angular components, custom pipes, and reactive forms ensuring cross-browser compatibility.</li>
+          <li>Migrated legacy modules from JavaScript to TypeScript, improving maintainability and performance.</li>
+          <li>Implemented RxJS-based pagination, filtering, and debounce search for efficient data handling.</li>
+          <li>Enhanced MySQL database efficiency by optimizing queries — <strong style="color:#fff">50% faster data retrieval</strong>.</li>
+          <li>Migrated legacy modules to strict-mode TypeScript improving maintainability.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="timeline-item" onclick="toggleTimeline(this)">
+      <div class="timeline-header">
+        <div class="timeline-left">
+          <div class="timeline-role">Programmer Analyst Trainee</div>
+          <div class="timeline-co">Cognizant — Google Client</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="timeline-period">Nov 2021 – Nov 2022</div>
+          <div class="timeline-toggle">+</div>
+        </div>
+      </div>
+      <div class="timeline-body">
+        <ul class="timeline-bullets">
+          <li>Assisted in developing internal web applications for reviewers using Angular and TypeScript.</li>
+          <li>Built modular Angular components with reusable services and directives, improving code reusability.</li>
+          <li>Developed interactive forms and category-based data-fetching features for enhanced user experience.</li>
+          <li>Participated in Agile sprint planning, daily stand-ups, and Git-based version control collaboration.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STACK -->
+<div class="border-section" id="stack">
+  <div class="section section-py">
+    <div class="sec-head fade-up">
+      <div>
+        <div class="sec-title">stack & craft</div>
+      </div>
+      <div class="sec-sub">4 years shipping Angular at scale</div>
+    </div>
+
+    <div class="skills-grid fade-up">
+      <div class="skill-card">
+        <div class="skill-name">Angular 14–16 · CLI · Components</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+        <div class="skill-tag">core framework · expert</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">TypeScript · Strict Mode</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:92%;animation-delay:0.1s"></div></div>
+        <div class="skill-tag">type safety · advanced</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">RxJS · Observables · Streams</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%;animation-delay:0.15s"></div></div>
+        <div class="skill-tag">reactive programming</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">Angular Material · SCSS · Bootstrap</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;animation-delay:0.2s"></div></div>
+        <div class="skill-tag">UI · styling · responsive</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">Routing · Lazy Loading · Guards</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%;animation-delay:0.25s"></div></div>
+        <div class="skill-tag">navigation · performance</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">Jasmine · Karma · Unit Testing</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;animation-delay:0.3s"></div></div>
+        <div class="skill-tag">testing · 90% coverage</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">REST APIs · HTTP Interceptors</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:87%;animation-delay:0.35s"></div></div>
+        <div class="skill-tag">api integration</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">Git · GitHub · CI/CD</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;animation-delay:0.4s"></div></div>
+        <div class="skill-tag">version control · devops</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">NgRx · Signals · State Mgmt</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;animation-delay:0.45s"></div></div>
+        <div class="skill-tag">state management</div>
+      </div>
+    </div>
+
+    <div class="deep-cards fade-up">
+      <div class="deep-card">
+        <div class="deep-card-icon">⚡</div>
+        <div class="deep-card-h">Performance First</div>
+        <div class="deep-card-d">OnPush change detection, memoization, lazy loading and tree-shaking — reduced bundle size by 40%.</div>
+      </div>
+      <div class="deep-card">
+        <div class="deep-card-icon">🔁</div>
+        <div class="deep-card-h">Reactive Mastery</div>
+        <div class="deep-card-d">RxJS-based pagination, debounce search, and stream optimization for complex async workflows.</div>
+      </div>
+      <div class="deep-card">
+        <div class="deep-card-icon">🧪</div>
+        <div class="deep-card-h">Quality Driven</div>
+        <div class="deep-card-d">90% test coverage via Jasmine/Karma. Post-release bugs cut by 40% through integration tests.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div class="section section-py" id="achievements">
+  <div class="sec-head fade-up">
+    <div class="sec-title">key achievements</div>
+    <div class="sec-sub">impact at scale</div>
+  </div>
+
+  <div class="achievements-grid fade-up">
+    <div class="achievement-card">
+      <div class="achievement-icon">💰</div>
+      <div class="achievement-text">
+        <h4>$40,000 Annual Savings</h4>
+        <p>Built an internal automation at Google eliminating manual overhead — saving $40K/year in engineering time.</p>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-icon">📦</div>
+      <div class="achievement-text">
+        <h4>40% Bundle Reduction</h4>
+        <p>Reduced Angular bundle size by 40% using tree-shaking, code splitting, and targeted build optimizations.</p>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-icon">☁️</div>
+      <div class="achievement-text">
+        <h4>Google Associate Cloud Engineer</h4>
+        <p>Certified GCP Associate Cloud Engineer — cloud architecture, deployment, and services expertise.</p>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-icon">🏅</div>
+      <div class="achievement-text">
+        <h4>AWS Cloud Practitioner</h4>
+        <p>AWS Certified Cloud Practitioner — multi-cloud understanding for modern deployment pipelines.</p>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-icon">🏗️</div>
+      <div class="achievement-text">
+        <h4>Component-Driven Architecture</h4>
+        <p>Designed a reusable component architecture used across teams, reducing code duplication significantly.</p>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-icon">🎯</div>
+      <div class="achievement-text">
+        <h4>50% Faster Load Times</h4>
+        <p>Route guards, lazy modules, and API interceptors cut initial load performance by half for 4,000+ users.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="border-section" id="about">
+  <div class="section section-py">
+    <div class="about-grid fade-up">
+      <div>
+        <div class="sec-title">about</div>
+        <p class="about-intro">
+          I'm Mani — an Angular developer focused on enterprise-grade applications,
+          clean architecture, and performance. Four years at Cognizant working on
+          Google's internal tools taught me how to ship scalable UIs at speed.
+        </p>
+        <p class="about-intro" style="margin-top:14px">
+          I care about code that lasts: testable, readable, and fast. Whether it's
+          RxJS streams, OnPush rendering, or lazy routing — I bring engineering
+          discipline to every Angular app.
+        </p>
+      </div>
+      <div>
+        <div class="about-stat-grid">
+          <div class="stat-box"><div class="stat-k">Experience</div><div class="stat-v">4+ yrs</div></div>
+          <div class="stat-box"><div class="stat-k">Primary</div><div class="stat-v">Angular</div></div>
+          <div class="stat-box"><div class="stat-k">Users Served</div><div class="stat-v">4,000+</div></div>
+          <div class="stat-box"><div class="stat-k">Test Coverage</div><div class="stat-v">90%</div></div>
+          <div class="stat-box"><div class="stat-k">Education</div><div class="stat-v">B.Tech CSE</div></div>
+          <div class="stat-box"><div class="stat-k">Location</div><div class="stat-v">India (IST)</div></div>
+        </div>
+        <div class="philosophy-card">
+          <div class="philosophy-title">engineering philosophy</div>
+          <ul class="philosophy-list">
+            <li>Reusability over repetition — build once, use everywhere.</li>
+            <li>Performance is a feature — measure, don't guess.</li>
+            <li>Test coverage is confidence, not a metric.</li>
+            <li>Clean architecture scales; hacks don't.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact-section">
+  <div class="contact-inner">
+    <div class="contact-top fade-up">
+      <div>
+        <div class="contact-heading">let's build</div>
+        <p class="contact-sub">
+          Open to Angular developer roles, fullstack positions, and high-leverage contracts.
+          If you value clean code, performance, and scalable architecture — let's talk.
+        </p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a href="mailto:chsundar999@gmail.com" class="btn-primary">chsundar999@gmail.com</a>
+        <a href="tel:+919951507084" class="btn-secondary">+91 99515 07084</a>
+      </div>
+    </div>
+    <div class="contact-chips fade-up">
+      <div class="contact-chip">Angular 14–16 · Enterprise Apps</div>
+      <div class="contact-chip">RxJS · Reactive Architecture</div>
+      <div class="contact-chip">Performance · 90% Test Coverage</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Mani Sundar Chollangi · crafted with pretext aesthetic</p>
+  <div class="foot-links">
+    <a href="#experience">experience</a>
+    <a href="#stack">stack</a>
+    <a href="#about">about</a>
+  </div>
+</footer>
+
+<script>
+// TYPEWRITER
+const phrases = [
+  "Angular 14-16 · enterprise-grade applications.",
+  "RxJS · reactive, performant, testable.",
+  "90% test coverage · 40% faster load times.",
+  "Clean architecture · reusable components.",
+];
+let phraseIdx = 0, charIdx = 0, deleting = false;
+const tw = document.getElementById('typewriterEl');
+function typeLoop() {
+  const phrase = phrases[phraseIdx];
+  if (!deleting) {
+    tw.textContent = phrase.slice(0, charIdx + 1);
+    charIdx++;
+    if (charIdx >= phrase.length) {
+      deleting = true;
+      setTimeout(typeLoop, 1800);
+      return;
+    }
+  } else {
+    tw.textContent = phrase.slice(0, charIdx - 1);
+    charIdx--;
+    if (charIdx <= 0) {
+      deleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+    }
+  }
+  setTimeout(typeLoop, deleting ? 35 : 42);
+}
+typeLoop();
+
+// CONSOLE
+const EXP = [
+  "experience:",
+  "  • Software Engineer (Jan 2024–Present)",
+  "    4,000+ Google users · Angular 14-16 · TypeScript · RxJS",
+  "    —30% eng effort reduction · 50% load improvement · 90% coverage",
+  "  • Jr. Software Engineer (Nov 2022–Jan 2024)",
+  "    Angular components · strict TS migration · 50% faster DB queries",
+  "  • Programmer Analyst Trainee (Nov 2021–Nov 2022)",
+  "    Modular components · reusable services · Agile workflows",
+];
+const STACK_LOG = [
+  "stack:",
+  "  • Angular 14–16 · Angular CLI · Lazy Loading · Route Guards",
+  "  • TypeScript · Strict Mode · RxJS · Observables",
+  "  • Angular Material · SCSS · Bootstrap · Responsive UI",
+  "  • Jasmine · Karma · REST APIs · HTTP Interceptors",
+  "  • Git · GitHub · CI/CD · NgRx · Signals",
+  "  • MySQL · Basics of Node.js",
+];
+const CERTS_LOG = [
+  "certifications & achievements:",
+  "  🏅 Google Associate Cloud Engineer",
+  "  🏅 AWS Certified Cloud Practitioner",
+  "  💰 Built automation saving $40,000/year at Google",
+  "  📦 Reduced Angular bundle size by 40%",
+  "  🏗️ Component-driven architecture across teams",
+];
+const CONTACT_LOG = [
+  "contact:",
+  "  email   → chsundar999@gmail.com",
+  "  phone   → +91 9951507084",
+  "  role    → open to senior Angular / fullstack roles",
+  "  location→ India (IST)",
+];
+const HELP_LOG = [
+  "commands:",
+  "  :exp      — work experience",
+  "  :stack    — technical skills",
+  "  :certs    — certifications & achievements",
+  "  :contact  — hire / collaborate",
+  "  :clear    — clear console",
+];
+
+const logEl = document.getElementById('consoleLog');
+const inputEl = document.getElementById('consoleInput');
+const runBtn = document.getElementById('consoleRunBtn');
+
+function logLines(lines) {
+  lines.forEach(l => {
+    const d = document.createElement('div');
+    d.textContent = l;
+    if (l.startsWith('  •') || l.startsWith('  →') || l.startsWith('  🏅') || l.startsWith('  💰') || l.startsWith('  📦') || l.startsWith('  🏗️')) {
+      d.classList.add('log-success');
+    }
+    logEl.appendChild(d);
+  });
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function runCmd(raw) {
+  const q = raw.trim();
+  if (!q) return;
+  const cmdLine = document.createElement('div');
+  cmdLine.innerHTML = `<span class="log-cmd">> ${q}</span>`;
+  logEl.appendChild(cmdLine);
+
+  if (q === ':help' || q === 'help') logLines(HELP_LOG);
+  else if (q === ':exp' || q === ':experience') logLines(EXP);
+  else if (q === ':stack') logLines(STACK_LOG);
+  else if (q === ':certs' || q === ':achievements') logLines(CERTS_LOG);
+  else if (q === ':contact') logLines(CONTACT_LOG);
+  else if (q === ':clear') { logEl.innerHTML = ''; return; }
+  else {
+    const err = document.createElement('div');
+    err.textContent = `unknown command "${q}". try :help`;
+    err.style.color = '#f87171';
+    logEl.appendChild(err);
+  }
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+runBtn.addEventListener('click', () => { runCmd(inputEl.value); inputEl.value = ''; inputEl.focus(); });
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { runCmd(inputEl.value); inputEl.value = ''; }
+});
+
+// Focus on /
+window.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== inputEl) {
+    e.preventDefault();
+    inputEl.focus();
+  }
+});
+
+// TIMELINE ACCORDION
+function toggleTimeline(el) {
+  const body = el.querySelector('.timeline-body');
+  const isOpen = el.classList.contains('active');
+  // close all
+  document.querySelectorAll('.timeline-item').forEach(item => {
+    item.classList.remove('active');
+    item.querySelector('.timeline-body').classList.remove('open');
+  });
+  if (!isOpen) {
+    el.classList.add('active');
+    body.classList.add('open');
+  }
+}
+
+// FADE-UP OBSERVER
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
